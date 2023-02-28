@@ -24,24 +24,31 @@ exports.create = (text, callback) => {
     });
     //everything should go inside of this
     //fs.writeFile creates a new file path if it does not exist
-      //we want to create a new file for every ID
-      //in test/testData
+    //we want to create a new file for every ID
+    //in test/testData
 
   });
-  // items[id] = text;
-
-  // var folderName = `${this.dataDir}/${id}`;
-  // console.log('folder name: ', folderName);
-  // callback(null, { id, text });
 };
+
 
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+  // var data = _.map(items, (text, id) => {
+  //   return { id, text };
+  // });
+  // callback(null, data);
+  fs.readdir(exports.dataDir, (err, files) => {
+    console.log('files: ', files);
+    var result = _.map(files, (file) => {
+      var fp = path.join(exports.dataDir, file);
+      // console.log('fp: ', fp);
+      var id = path.basename(fp, '.txt');
+      // console.log('id: ', id);
+      return {id: id, text: id};
+    });
+    callback(null, result);
   });
-  callback(null, data);
-};
 
+};
 exports.readOne = (id, callback) => {
   var text = items[id];
   if (!text) {
