@@ -8,8 +8,16 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId(callback);
+  debugger;
+
+  counter.getNextUniqueId((err, data) => {
+    var id = data;
+    console.log('id: ', id);
+  });
   items[id] = text;
+
+  var folderName = `${this.dataDir}/${id}`;
+  console.log('folder name: ', folderName);
   callback(null, { id, text });
 };
 
