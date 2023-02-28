@@ -8,17 +8,31 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  debugger;
-
   counter.getNextUniqueId((err, data) => {
-    var id = data;
-    console.log('id: ', id);
-  });
-  items[id] = text;
+    // console.log('id: ', data);
+    // console.log('text: ', text);
 
-  var folderName = `${this.dataDir}/${id}`;
-  console.log('folder name: ', folderName);
-  callback(null, { id, text });
+    //items[id] = text;
+    var fileName = path.join(exports.dataDir, `${data}.txt`);
+    // console.log('path: ', fileName);
+    fs.writeFile(fileName, text, (err) => {
+      if (err) {
+        throw ('error writing counter');
+      } else {
+        callback(null, {id: data, text});
+      }
+    });
+    //everything should go inside of this
+    //fs.writeFile creates a new file path if it does not exist
+      //we want to create a new file for every ID
+      //in test/testData
+
+  });
+  // items[id] = text;
+
+  // var folderName = `${this.dataDir}/${id}`;
+  // console.log('folder name: ', folderName);
+  // callback(null, { id, text });
 };
 
 exports.readAll = (callback) => {
